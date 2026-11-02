@@ -1,12 +1,12 @@
 package com.example.app_1
 
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
+import android.widget.Button
+import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import android.widget.Button
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
 
     private lateinit var squareAdapter: SquareAdapter
     private lateinit var squareRecyclerView: RecyclerView

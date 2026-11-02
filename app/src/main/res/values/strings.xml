@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">App_1</string>
+    <string name="button_add_text">Добавить</string>
+    <string name="state_key_square_count">square_count</string>
+</resources>

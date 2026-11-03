@@ -15,11 +15,21 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val savedSquareCount = savedInstanceState
-            ?.getInt(getString(R.string.state_key_square_count))
-            ?: 0
+        val keyIds = getString(R.string.state_key_square_ids)
+        val keyRemoved = getString(R.string.state_key_removed_ids)
+        val keyNext = getString(R.string.state_key_next_id)
 
-        squareAdapter = SquareAdapter(savedSquareCount)
+        val savedIds = savedInstanceState?.getIntegerArrayList(keyIds)
+        val savedRemoved = savedInstanceState?.getIntegerArrayList(keyRemoved)
+        val savedNext = savedInstanceState?.getInt(keyNext, 0) ?: 0
+
+        squareAdapter = if (savedIds != null && savedRemoved != null) {
+            SquareAdapter(savedIds).also {
+                it.restoreState(savedIds, savedRemoved, savedNext)
+            }
+        } else {
+            SquareAdapter(emptyList())
+        }
 
         squareRecyclerView = findViewById(R.id.square_recycler_view)
         squareRecyclerView.layoutManager = GridLayoutManager(
@@ -35,14 +45,22 @@ class MainActivity : ComponentActivity() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
+        outState.putIntegerArrayList(
+            getString(R.string.state_key_square_ids),
+            ArrayList(squareAdapter.snapshotIds())
+        )
+        outState.putIntegerArrayList(
+            getString(R.string.state_key_removed_ids),
+            ArrayList(squareAdapter.snapshotRemovedIds())
+        )
         outState.putInt(
-            getString(R.string.state_key_square_count),
-            squareAdapter._squareCount
+            getString(R.string.state_key_next_id),
+            squareAdapter.snapshotNextId()
         )
     }
 
     private fun squareAddButton_on_click() {
         squareAdapter.square_add()
-        squareRecyclerView.smoothScrollToPosition(squareAdapter._squareCount - 1)
+        squareRecyclerView.smoothScrollToPosition(squareAdapter.squareCount - 1)
     }
 }

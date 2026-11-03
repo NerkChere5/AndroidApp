@@ -1,5 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">App_1</string>
+    <string name="app_name">app_1</string>
     <string name="button_add_text">Добавить</string>
-    <string name="state_key_square_count">square_count</string>
+    <string name="state_key_square_ids">square_ids</string>
+    <string name="state_key_removed_ids">removed_square_ids</string>
+    <string name="state_key_next_id">next_square_id</string>
 </resources>
